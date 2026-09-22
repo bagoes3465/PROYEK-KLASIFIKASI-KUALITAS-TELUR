@@ -1,0 +1,120 @@
+# ============================================================
+# .gitignore - Proyek Klasifikasi & Sortir Telur (YOLO)
+# ============================================================
+# Tujuan: hanya source code, konfigurasi dataset, dan dokumentasi
+# yang masuk ke version control. Aset besar dan hasil runtime diabaikan.
+# ============================================================
+
+
+# ------------------------------------------------------------
+# 1. Environment Python
+# ------------------------------------------------------------
+# Environment lokal berukuran ~3.9 GB, tidak boleh di-commit.
+# Recreate dengan: python -m venv env
+env/
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+pyvenv.cfg
+
+# ------------------------------------------------------------
+# 2. Cache & bytecode Python
+# ------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+pip-wheel-metadata/
+
+# ------------------------------------------------------------
+# 3. Dataset
+# ------------------------------------------------------------
+# Dataset berukuran ~594 MB. Sumbernya Roboflow dan tercatat di
+# dataset/*/data.yaml serta README.roboflow.txt.
+# Bila dataset HARUS ikut ter-commit, hapus baris "dataset/" di bawah.
+dataset/
+
+# ------------------------------------------------------------
+# 4. Bobot model (weights)
+# ------------------------------------------------------------
+# Abaikan seluruh file .pt (bobot dasar dapat diunduh ulang dari Ultralytics),
+# TETAPI tetap simpan model hasil training sebagai deliverable proyek.
+*.pt
+*.pth
+*.onnx
+*.tflite
+*.engine
+!models/best.pt
+
+# ------------------------------------------------------------
+# 5. Hasil training (artefak besar, dapat diregenerasi)
+# ------------------------------------------------------------
+# ~202 MB berisi checkpoint, grafik, dan log epoch.
+runs/
+weights/
+wandb/
+*.cache
+
+# ------------------------------------------------------------
+# 6. Hasil runtime aplikasi
+# ------------------------------------------------------------
+# Log deteksi dan gambar reject ditulis saat aplikasi berjalan.
+log_deteksi.csv
+rejected_images/
+
+# Konfigurasi ini menyimpan IP kamera, COM port, dan device lokal
+# sehingga bersifat spesifik per mesin. Nilai default ada di script/app.py.
+app_config.json
+
+# ------------------------------------------------------------
+# 6b. Dokumentasi laporan
+# ------------------------------------------------------------
+# Laporan akhir (PDF/DOCX) berukuran besar dan bersifat deliverable
+# terpisah, bukan bagian dari source code aplikasi.
+docs/
+
+# ------------------------------------------------------------
+# 7. Notebook & data sementara
+# ------------------------------------------------------------
+.ipynb_checkpoints/
+*.tmp
+*.temp
+*.bak
+~$*
+
+# ------------------------------------------------------------
+# 8. Editor & IDE
+# ------------------------------------------------------------
+.vscode/
+!.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------
+# 9. Sistem operasi
+# ------------------------------------------------------------
+Thumbs.db
+ehthumbs.db
+desktop.ini
+.DS_Store
+._*
+
+# ------------------------------------------------------------
+# 10. Rahasia & kredensial
+# ------------------------------------------------------------
+# Jangan pernah commit kredensial, token, atau sertifikat.
+.env
+.env.*
+*.key
+*.pem
+secrets.json
+credentials.json

@@ -1,0 +1,36 @@
+# Dependensi runtime untuk aplikasi sortir telur (YOLO)
+# Versi mengikuti environment `env/` yang sudah terverifikasi berjalan.
+#
+# Catatan penting untuk GPU:
+#   torch dan torchvision WAJIB berasal dari build CUDA yang sama.
+#   Kombinasi saat ini: torch 2.14.0+cu130 dengan torchvision 0.29.0+cu130.
+#   Campuran CUDA+CPU (mis. torchvision +cpu) menyebabkan
+#   NotImplementedError pada torchvision::nms saat device = cuda.
+
+# --- Computer vision & model ---
+ultralytics==8.4.158
+opencv-python
+
+# --- Deep learning (install dari index PyTorch CUDA) ---
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130
+torch==2.14.0+cu130
+torchvision==0.29.0+cu130
+
+# --- Numerik & data ---
+numpy
+pandas
+scipy
+
+# --- GUI desktop ---
+customtkinter
+Pillow
+
+# --- Visualisasi ---
+matplotlib
+
+# --- Perangkat & serial ---
+pyserial
+
+# --- Utilitas ---
+PyYAML
+tqdm
