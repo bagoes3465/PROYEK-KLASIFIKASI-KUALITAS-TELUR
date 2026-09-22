@@ -1,0 +1,7 @@
+{
+  // Tombol zoom/pan bawaan ekstensi mermaid-markdown-features menutupi
+  // diagram saat preview README.md di VS Code. Nilai "never" menyembunyikan
+  // tombol tersebut. Diagram tetap dapat diperbesar dengan Ctrl+scroll.
+  // Nilai yang tersedia: "never" | "onHoverOrFocus" | "always".
+  "markdown-mermaid.controls.show": "never"
+}

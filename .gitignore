@@ -92,7 +92,10 @@ docs/
 # ------------------------------------------------------------
 # 8. Editor & IDE
 # ------------------------------------------------------------
-.vscode/
+# CATATAN: gunakan ".vscode/*" dan bukan ".vscode/".
+# Pola folder ".vscode/" membuat Git tidak menelusuri isinya sama sekali,
+# sehingga pengecualian "!" di bawahnya TIDAK akan pernah berlaku.
+.vscode/*
 !.vscode/settings.json
 .idea/
 *.swp
