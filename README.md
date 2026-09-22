@@ -1,7 +1,10 @@
 <!-- ============ ANIMATED HEADER ============ -->
+<!-- CATATAN: parameter "desc" TIDAK BOLEH memuat karakter "&".
+     Server capsule-render menyisipkannya mentah ke dalam XML sehingga SVG
+     gagal di-parse (gambar tampil rusak / 0x0). Gunakan "dan", bukan "&". -->
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,12,20,24&height=220&section=header&text=Egg%20Sorter&fontSize=68&fontColor=ffffff&animation=fadeIn&fontAlignY=34&desc=Klasifikasi%20%26%20Sortir%20Kualitas%20Telur%20Berbasis%20YOLO&descAlignY=56&descSize=19" width="100%" alt="Egg Sorter" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=2,12,20,24&height=220&section=header&text=Egg%20Sorter&fontSize=68&fontColor=ffffff&animation=fadeIn&fontAlignY=34&desc=Klasifikasi%20dan%20Sortir%20Kualitas%20Telur%20Berbasis%20YOLO&descAlignY=56&descSize=19" width="100%" alt="Egg Sorter" />
 
 <!-- ============ ANIMATED TYPING ============ -->
 <a href="#-tentang-proyek">
@@ -160,8 +163,8 @@ flowchart TB
 ### 2️⃣ Klon & Environment
 
 ```powershell
-git clone <url-repositori-anda>
-cd PROYEK_KLASIFIKASI_TELUR
+git clone https://github.com/bagoes3465/PROYEK-KLASIFIKASI-KUALITAS-TELUR.git
+cd PROYEK-KLASIFIKASI-KUALITAS-TELUR
 
 python -m venv env
 .\env\Scripts\Activate.ps1
@@ -437,11 +440,16 @@ Kedua versi harus berakhiran `+cu130`. Jika torchvision berakhiran `+cpu`:
 
 ## 📚 Dokumentasi
 
+> Folder `docs/` **tidak disertakan** dalam repositori ini (lihat `.gitignore`). Laporan akhir proyek tersedia secara terpisah dari pemilik proyek.
+
+Dokumentasi teknis lengkap tersedia langsung di repositori:
+
 | Berkas | Isi |
 | --- | --- |
-| `docs/readme.md` | Dokumentasi teknis terperinci |
-| `docs/Laporan-Akhir-Project-Klasifikasi-Telur.pdf` | Laporan akhir proyek |
-| `docs/Laporan-Akhir-Project-Klasifikasi-Telur.docx` | Versi editable laporan |
+| `README.md` | Dokumen ini — panduan instalasi, penggunaan, dan pemecahan masalah |
+| `script/app.py` | Docstring dan komentar pada kode sumber aplikasi |
+| `dataset/*/data.yaml` | Definisi kelas dan path dataset |
+| `runs/detect/*/args.yaml` | Konfigurasi training yang benar-benar dijalankan |
 
 ---
 
