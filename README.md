@@ -68,8 +68,8 @@ flowchart TD
     D --> F["Serial: R"]
     E --> G["Aktuator jalur terima"]
     F --> H["Aktuator jalur tolak"]
-    G --> SPACER[" "]
-    H --> SPACER
+    G ~~~ SPACER[" "]
+    H ~~~ SPACER
 
     linkStyle 0 stroke:#7DD3FC,stroke-width:2.4px
     linkStyle 1 stroke:#22C55E,stroke-width:2.4px
@@ -126,7 +126,7 @@ flowchart TB
     Z --> R
     Z --> G
     S --> HW["⚙️ Arduino / ESP32<br/>Aktuator Conveyor"]
-    HW --> SPACER[" "]
+    HW ~~~ SPACER[" "]
 
     style INPUT fill:#0E192A,stroke:#28415E,color:#A8BDD5
     style CORE fill:#12354B,stroke:#38BDF8,color:#EDF5FF
@@ -256,7 +256,7 @@ flowchart TD
     end
     S3 --> S4
     S7 --> S8
-    S8 --> SPACER[" "]
+    S8 ~~~ SPACER[" "]
 
     style P1 fill:#443116,stroke:#F59E0B,color:#FCD34D
     style P2 fill:#12354B,stroke:#38BDF8,color:#7DD3FC
