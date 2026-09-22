@@ -46,16 +46,23 @@
 
 ### 🎯 Kebijakan Keputusan
 
+<!-- CATATAN: GitHub menampilkan panel tombol zoom/pan (7 tombol, ~110x100px)
+     di kanan bawah setiap diagram mermaid. Panel ini TIDAK dapat dimatikan.
+     Karena itu diagram disusun vertikal (TD) dan diberi node SPACER kosong di
+     bagian bawah sebagai penyerap ruang, sehingga tidak ada node yang tertutup. -->
+
 ```mermaid
-flowchart LR
-    A["🥚 Telur melewati<br/>Detection Zone"] --> B{"Deteksi YOLO11n"}
-    B -->|"clean<br/>yellow egg"| C["✅ ACCEPT"]
-    B -->|"crack<br/>dirty<br/>crackeggs<br/>dirtyeggs"| D["❌ REJECT"]
+flowchart TD
+    A["🥚 Telur melewati Detection Zone"] --> B{"Deteksi YOLO11n"}
+    B -->|"clean, yellow egg"| C["✅ ACCEPT"]
+    B -->|"crack, dirty"| D["❌ REJECT"]
     B -->|"tidak ada objek"| C
     C --> E["Serial: A"]
     D --> F["Serial: R"]
     E --> G["Aktuator jalur terima"]
     F --> H["Aktuator jalur tolak"]
+    G --> SPACER[" "]
+    H --> SPACER
 
     style A fill:#17253A,stroke:#28415E,color:#EDF5FF
     style B fill:#12354B,stroke:#38BDF8,color:#EDF5FF
@@ -65,6 +72,7 @@ flowchart LR
     style F fill:#17253A,stroke:#28415E,color:#EDF5FF
     style G fill:#123A31,stroke:#22C55E,color:#6EE7B7
     style H fill:#451F2A,stroke:#F05252,color:#FDA4AF
+    style SPACER fill:none,stroke:none,height:90px
 ```
 
 ---
@@ -80,16 +88,16 @@ flowchart TB
     end
 
     subgraph CORE["🧠 Pemrosesan"]
-        M["ModelManager<br/>YOLO11n · models/best.pt"]
-        T["CentroidTracker<br/>ID objek persisten"]
-        Z["Detection Zone<br/>garis X + toleransi"]
+        M["ModelManager · YOLO11n"]
+        T["CentroidTracker · ID objek"]
+        Z["Detection Zone · garis X"]
     end
 
     subgraph OUTPUT["📤 Keluaran"]
-        S["SerialManager<br/>A / R"]
-        L["LogManager<br/>log_deteksi.csv"]
-        R["Bukti Reject<br/>rejected_images/"]
-        G["Dashboard<br/>statistik + grafik"]
+        S["SerialManager · A / R"]
+        L["LogManager · CSV"]
+        R["Bukti Reject · images"]
+        G["Dashboard · statistik"]
     end
 
     I1 --> M
@@ -101,11 +109,13 @@ flowchart TB
     Z --> R
     Z --> G
     S --> HW["⚙️ Arduino / ESP32<br/>Aktuator Conveyor"]
+    HW ~~~ SPACER[" "]
 
     style INPUT fill:#0E192A,stroke:#28415E,color:#A8BDD5
     style CORE fill:#12354B,stroke:#38BDF8,color:#EDF5FF
-    style OUTPUT fill:#123A31,stroke:#22C55E,color:#EDF5FF
+    style OUTPUT fill:#123A31,stroke:#22C55E,color:#6EE7B7
     style HW fill:#443116,stroke:#F59E0B,color:#FCD34D
+    style SPACER fill:none,stroke:none
 ```
 
 ---
