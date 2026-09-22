@@ -46,12 +46,19 @@
 
 ### 🎯 Kebijakan Keputusan
 
-<!-- CATATAN: GitHub menampilkan panel tombol zoom/pan (7 tombol, ~110x100px)
-     di kanan bawah setiap diagram mermaid. Panel ini TIDAK dapat dimatikan.
-     Karena itu diagram disusun vertikal (TD) dan diberi node SPACER kosong di
-     bagian bawah sebagai penyerap ruang, sehingga tidak ada node yang tertutup. -->
+<!-- CATATAN TEKNIS:
+     1. GitHub menampilkan panel tombol zoom/pan (7 tombol, ~101x101px) di kanan
+        bawah setiap diagram mermaid dan TIDAK dapat dimatikan. Karena itu diagram
+        disusun vertikal (TD) + node SPACER kosong sebagai penyerap ruang.
+     2. Animasi memakai `themeCSS` pada blok init — GitHub terbukti menghormatinya
+        (@keyframes ikut tersuntik ke dalam SVG). Efeknya:
+        - Garis alur bergerak (stroke-dashoffset) mengikuti arah sistem.
+        - Node berdenyut halus sebagai indikator "sistem aktif".
+        - Node keputusan berdenyut lebih terang (glow).
+     3. linkStyle mewarnai setiap jalur: hijau = ACCEPT, merah = REJECT. -->
 
 ```mermaid
+%%{init: {'theme':'base','themeCSS':'@keyframes eggflow{to{stroke-dashoffset:-800}}@keyframes settle{0%,100%{opacity:1}50%{opacity:.8}}@keyframes glow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 5px #38BDF8)}}.flowchart-link,.edgePath .path{stroke-dasharray:10 8!important;animation:eggflow 14s linear infinite!important;stroke-width:2.4px!important}g.node{animation:settle 3.6s ease-in-out infinite}#diagram-flowchart-B-0{animation:glow 2.2s ease-in-out infinite}'}}%%
 flowchart TD
     A["🥚 Telur melewati Detection Zone"] --> B{"Deteksi YOLO11n"}
     B -->|"clean, yellow egg"| C["✅ ACCEPT"]
@@ -63,6 +70,15 @@ flowchart TD
     F --> H["Aktuator jalur tolak"]
     G --> SPACER[" "]
     H --> SPACER
+
+    linkStyle 0 stroke:#7DD3FC,stroke-width:2.4px
+    linkStyle 1 stroke:#22C55E,stroke-width:2.4px
+    linkStyle 2 stroke:#F05252,stroke-width:2.4px
+    linkStyle 3 stroke:#22C55E,stroke-width:2.4px
+    linkStyle 4 stroke:#22C55E,stroke-width:2.4px
+    linkStyle 5 stroke:#F05252,stroke-width:2.4px
+    linkStyle 6 stroke:#22C55E,stroke-width:2.4px
+    linkStyle 7 stroke:#F05252,stroke-width:2.4px
 
     style A fill:#17253A,stroke:#28415E,color:#EDF5FF
     style B fill:#12354B,stroke:#38BDF8,color:#EDF5FF
@@ -80,6 +96,7 @@ flowchart TD
 ## 🏗️ Arsitektur Sistem
 
 ```mermaid
+%%{init: {'theme':'base','themeCSS':'@keyframes pipe{to{stroke-dashoffset:-600}}@keyframes staged{0%,100%{opacity:1}50%{opacity:.82}}@keyframes hwglow{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 6px #F59E0B)}}.flowchart-link,.edgePath .path{stroke-dasharray:9 7!important;animation:pipe 12s linear infinite!important;stroke:#38BDF8!important;stroke-width:2.2px!important}g.node{animation:staged 3.2s ease-in-out infinite}#diagram-flowchart-HW-0{animation:hwglow 2.6s ease-in-out infinite}'}}%%
 flowchart TB
     subgraph INPUT["📥 Sumber Input"]
         I1["Webcam Lokal"]
@@ -109,13 +126,13 @@ flowchart TB
     Z --> R
     Z --> G
     S --> HW["⚙️ Arduino / ESP32<br/>Aktuator Conveyor"]
-    HW ~~~ SPACER[" "]
+    HW --> SPACER[" "]
 
     style INPUT fill:#0E192A,stroke:#28415E,color:#A8BDD5
     style CORE fill:#12354B,stroke:#38BDF8,color:#EDF5FF
     style OUTPUT fill:#123A31,stroke:#22C55E,color:#6EE7B7
     style HW fill:#443116,stroke:#F59E0B,color:#FCD34D
-    style SPACER fill:none,stroke:none
+    style SPACER fill:none,stroke:none,height:70px
 ```
 
 ---
@@ -219,21 +236,40 @@ Tanpa aktivasi environment:
 
 ### 🧭 Alur Kerja Operator
 
+<!-- Alur operasional dirender sebagai flowchart (bukan journey) karena:
+     - journey memakai SVG berskala tetap (600x154) sehingga tugas terakhir
+       selalu tertutup tombol zoom GitHub dan tidak dapat diberi spacer;
+     - flowchart mendukung node SPACER, linkStyle, dan animasi themeCSS.
+     Animasi: garis alur bergerak (seq), node berdenyut (act), fase berdenyut (phase). -->
+
 ```mermaid
-journey
-    title Alur Operasional Sortir Telur
-    section Persiapan
-      Pilih sumber kamera: 5: Operator
-      Hubungkan serial: 4: Operator
-      Atur zona deteksi: 3: Operator
-    section Operasi
-      Mulai kamera: 5: Operator
-      Telur melewati zona: 5: Sistem
-      Keputusan ACCEPT atau REJECT: 5: Sistem
-      Aktuator bergerak: 5: Perangkat
-    section Pemantauan
-      Pantau statistik: 4: Operator
-      Tinjau log dan grafik: 3: Operator
+%%{init: {'theme':'base','themeCSS':'@keyframes seq{to{stroke-dashoffset:-500}}@keyframes act{0%,100%{opacity:1}50%{opacity:.8}}@keyframes phase{0%,100%{opacity:1}50%{opacity:.92}}.flowchart-link,.edgePath .path{stroke-dasharray:9 7!important;animation:seq 13s linear infinite!important;stroke:#38BDF8!important;stroke-width:2.2px!important}g.node{animation:act 3.4s ease-in-out infinite}g.cluster{animation:phase 5s ease-in-out infinite}'}}%%
+flowchart TD
+    subgraph P1["PERSIAPAN - Operator"]
+        S1["1. Pilih sumber kamera"] --> S2["2. Hubungkan serial"] --> S3["3. Atur zona deteksi"]
+    end
+    subgraph P2["OPERASI - Sistem dan Perangkat"]
+        S4["4. Mulai kamera"] --> S5["5. Telur melewati zona"] --> S6["6. Keputusan ACCEPT / REJECT"] --> S7["7. Aktuator bergerak"]
+    end
+    subgraph P3["PEMANTAUAN - Operator"]
+        S8["8. Pantau statistik dan log"]
+    end
+    S3 --> S4
+    S7 --> S8
+    S8 --> SPACER[" "]
+
+    style P1 fill:#443116,stroke:#F59E0B,color:#FCD34D
+    style P2 fill:#12354B,stroke:#38BDF8,color:#7DD3FC
+    style P3 fill:#123A31,stroke:#22C55E,color:#6EE7B7
+    style S1 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S2 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S3 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S4 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S5 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S6 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S7 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style S8 fill:#17253A,stroke:#28415E,color:#EDF5FF
+    style SPACER fill:none,stroke:none,height:80px
 ```
 
 **Langkah operasional:**
