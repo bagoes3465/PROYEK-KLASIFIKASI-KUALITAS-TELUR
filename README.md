@@ -297,12 +297,6 @@ Konfigurasi: 100 epoch · batch 8 · imgsz 416 · optimizer SGD · patience 20 �
 | mAP50 | **98,18%** |
 | mAP50-95 | **94,02%** |
 
-### YOLOv8 — Dataset 6 Kelas
-
-```powershell
-.\env\Scripts\python.exe script\training.py
-```
-
 ### Melalui GUI
 
 Tab **Training** menyediakan konfigurasi dataset, base model, epoch, batch, image size, workers, patience, cache, AMP, dan plots. Training berjalan di thread terpisah dan dapat dihentikan dengan tombol **Stop Training**.
@@ -321,9 +315,7 @@ PROYEK_KLASIFIKASI_TELUR/
 │
 ├── 📂 script/
 │   ├── app.py                    ⭐ Aplikasi utama (GUI lengkap)
-│   ├── train_dataset.py          Training YOLO11n (4 kelas)
-│   ├── training.py               Training YOLOv8 (6 kelas)
-│   ├── train_model.py            Wrapper YOLOTrainer
+│   ├── train_dataset.py          ⭐ Training YOLO11n (4 kelas)
 │   ├── split_data.py             Pembagi dataset
 │   └── main.py · tes.py · tes_cuda.py    Varian GUI lama
 │
